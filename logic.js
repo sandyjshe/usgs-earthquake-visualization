@@ -1,10 +1,9 @@
 // Store our API endpoint inside queryUrl
-// var queryUrl = "http://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2014-01-01&endtime=" +
-//   "2014-01-02&maxlongitude=-69.52148437&minlongitude=-123.83789062&maxlatitude=48.74894534&minlatitude=25.16517337";
-
 var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
 
+// Store tectonic URL
 var tectonicUrl = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json"
+
 //Define funciton to set circle marker set based on mag
 function circleMarkerSize (mag) {
     return mag * 30000;
@@ -33,7 +32,7 @@ d3.json(queryUrl, function(data) {
   createFeatures(data.features);
 });
 
-//second overlay
+//second overlay, tectonic plates
 var tectonicPlates = new L.LayerGroup();
 
 d3.json(tectonicUrl, function(tectonicData) {
@@ -81,7 +80,7 @@ function createFeatures(earthquakeData) {
 
 function createMap(earthquakes) {
 
-  // Define streetmap and darkmap layers
+  // Define streetmap, lightmap, grayscale and darkmap layers
   var streetmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
     attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
     maxZoom: 18,
@@ -100,11 +99,22 @@ function createMap(earthquakes) {
   "access_token=pk.eyJ1Ijoic2hhcm9uc3U5NCIsImEiOiJjamV2b3AxaWQwcDc5MzJwc2o0ZjhlNzR1In0." +
   "VjlbqszIZOjTP0T1d-Y9Aw");
 
+  
+  var grayscale = L.tileLayer(
+    'http://{s}.www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png', {
+    attribution: '&copy; ' + '<a href="http://openstreetmap.org">OpenStreetMap</a>' + ' Contributors',
+    maxZoom: 18,
+    })
+
+ 
+
+
   // Define a baseMaps object to hold our base layers
   var baseMaps = {
     "Dark Map": darkmap,
     "Light Map": lightmap,
-    "Street Map": streetmap
+    "Street Map": streetmap,
+    "Gray Scale": grayscale
   };
 
   // Create overlay object to hold our overlay layer
