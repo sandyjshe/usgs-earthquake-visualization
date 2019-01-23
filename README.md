@@ -1,5 +1,9 @@
 # Unit 17 | Assignment - Visualizing Data with Leaflet
 
+## Visit Github Project Site
+
+https://sandyjshe.github.io/usgs-earthquake-visualization/
+
 ## Background
 
 ![1-Logo](Images/1-Logo.png)
